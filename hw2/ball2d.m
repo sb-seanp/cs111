@@ -6,7 +6,7 @@ xv = .3;
 yv = 0;
 t = 0;
 delta_t = .03;
-t_final = 200;
+t_final = 600;
 radius = .05;
 xd = .5;
 yd = 1-radius;
@@ -23,7 +23,7 @@ Draw_Disk(xd,yd,radius);
 axis([0 x_wall 0 y_wall]);
 drawnow;
 
-while t < t_final,
+while true,
     t = t + delta_t;
     xd = xd + xv*delta_t;
     yv = yv + g*delta_t;
@@ -40,6 +40,9 @@ while t < t_final,
     if ((yd + radius) > y_wall || yd < radius),
         yv = -1*yv*n_damp;
         xv = xv*t_damp;
+    end;
+    if (yd <= radius),
+        yd = radius;
     end;
     
 end;
