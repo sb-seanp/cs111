@@ -33,11 +33,11 @@ while true,
     axis([0 x_wall 0 y_wall]);
     drawnow;
     
-    if ((xd + radius) > x_wall || xd < radius),
+    if ((xd + radius) >= x_wall || xd <= radius),
         xv = -1*xv*n_damp;
         yv = yv*t_damp;
     end;
-    if ((yd + radius) > y_wall || yd < radius),
+    if ((yd + radius) >= y_wall || yd <= radius),
         yv = -1*yv*n_damp;
         xv = xv*t_damp;
     end;
