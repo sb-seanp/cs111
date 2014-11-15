@@ -1,0 +1,36 @@
+\documentclass[12pt]{report}
+
+\begin{document}
+\title{Midterm Project Documentation}
+\author{Sean Prasertsit}
+\date{2014-11-14}
+\maketitle
+
+\section{Getting Started}
+
+\subsection{Approach}
+\paragraph{}	My approach was based off of the previous homework assignment involving the walls. The same method would be used which was to find out exactly when the balls would collide, get the timestep, evaluate the velocity with the new timestep, and then adjust the velocity to account for collision. The only difference with this midterm was that there was more to updating the velocities than just switching direction. My approach was to do exactly as the assignment said: find the normal and tangential components, swap normals, and convert the normal and tangential components of velocity back into velocity.
+
+\subsection{Re-evaluate variables}
+\paragraph{}	The first step to completing the simulation was refactoring the variables. Velocity and position values were placed into vectors and separate vectors were made for the red ball and the blue ball. The boundaries were redefined to avoid the previous hard-coded and a new {\ttfamily ball\_collision} variable was added.
+
+\subsection{Draw second ball}
+\paragraph{}	A second ``ball'' needed to be added to the figure so the {\ttfamily Draw\_Disk} function was redefined to add support for a second ball. The number of arguments was increased to 5 to accommodate another Cartesian coordinate.
+
+\section{In-Depth}
+\subsection{Detecting collision}
+\paragraph{}	Detecting collision was relatively easy. A simple Cartesian distance equation was used of the form \(\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} <= 2R\). This would detect if the balls had made contact or overlapped.
+
+\subsection{Reacting to collision}
+\paragraph{}	After a collision has been detected, the next step is to find the timestep at which the collision happened. This is to prevent the balls from ever overlapping. This is done with the expression \(\frac{\sqrt{(position_x)^2 + (position_y)^2} - 2R}{\sqrt{(velocity_x)^2 + (velocity_y)^2}}\). This gives the timestep where the collision happens and allows further calculations to be made. This time replaces the default \(\Delta t\). With the new \(\Delta t\), we then go back and calculate the position of the balls again just like in the previous homework assignment.
+
+\subsection{Convert (x,y) to (n,t)}
+\paragraph{}	To get the balls to bounce, there needed to be a way to obtain their normal and tangential properties at their collision. This is done by converting to the (n,t) basis. The angle \(\theta\) was obtained by taking the inverse tangent of the combined x and y vectors from the two balls, \(\theta = arctan(\frac{y_2 - y_1}{x_2 - x_1})\). This angle is then used in a series of trigonometric equations supplied during section to obtain the \textit{n} and \textit{t} vectors for both balls. Equations used were \(n = \cos(\theta)v_x + \sin(\theta)v_y\) and \(t = -\sin(\theta)v_x + \cos(\theta)v_y\).
+
+\subsection{Swap normals and convert}
+\paragraph{}	Once \textit{n} and \textit{t} were found, it was a simple step to swap the normals of the red and the blue ball. Then, the conversion back to velocity using the expression 
+\(v_x = \cos(\theta)n - \sin(\theta)t\) and \(v_y = \sin(\theta)n + \cos(\theta)t\) with the \textit{n}-component of the red and the blue balls swapped.
+
+\subsection{Wrapping up}
+\paragraph{}	With final output of the ball collision step being a velocity vector, the last thing to do was to advance the clock and draw the balls. The new velocity vector would be applied the next time around again through the loop.
+\end{document}
