@@ -1,0 +1,26 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[none]{hyphenat}
+
+\begin{document}
+\title{Report: Simulation of a Vibrating System}
+\author{Sean Prasertsit}
+\date{2014 November 22}
+\maketitle
+
+\section{Equations satisfied by the system using Newton's second law of motion.}
+\subsection{}	\(m_1\ddot{x}_1 = -k_1x_1 + k_2(x_2 - x_1)\)
+\subsection{}	\(m_2\ddot{x}_2 = -k_2(x_2 - x_1) + k_3(x_3 - x_2)\)
+\subsection{}	\(m_3\ddot{x}_3 = -k_3(x_3 - x_2) - k_4x_3\)
+
+\section{System of equations expressed as an eigen problem.}
+\(Av = \lambda v\) \newline \newline
+\(A = 
+	\begin{bmatrix}
+	\frac{k_1 + k_2}{m_1} 	& \frac{-k_1}{m_1} 		& 0 \\
+	\frac{-k_2}{m_2} 		& \frac{k_2 + k_3}{m_2} & \frac{-k_2}{m_2} \\
+	0						& \frac{-k_3}{m_3}		& \frac{k_3}{m_3}
+	\end{bmatrix} \)
+where \textit{v} is an eigenvector and \(\lambda \) is an eigenvalue.
+\end{document}
