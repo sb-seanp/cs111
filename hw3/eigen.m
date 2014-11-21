@@ -13,15 +13,15 @@ k3 = 250;
 k4 = 110;
 
 % k/m
-aa = (k1 + k2)/m1;
-ab = -k1/m1;
+aa = (-k1 - k2)/m1;
+ab = k2/m1;
 ac = 0;
-ba = -k2/m2;
-bb = (k2 + k3)/m2;
-bc = -k2/m2;
+ba = k2/m2;
+bb = (-k2 - k3)/m2;
+bc = k3/m2;
 ca = 0;
-cb = -k3/m3;
-cc = k3/m3;
+cb = k3/m3;
+cc = (-k3 - k4)/m3;
 
 % Matrix consisting of k/m values
 A = [aa ab ac; ba bb bc; ca cb cc];
@@ -37,10 +37,16 @@ dt = 0.02;
 t = 0:dt:t_final;
 
 % Calculate sine plot
-x = v(2,1)*sin(freqs(1)*t);
+x = v(1,1)*sin(sqrt(-d(1,1))*t);
+y = v(2,1)*sin(sqrt(-d(1,1))*t);
+z = v(3,1)*sin(sqrt(-d(1,1))*t);
 
 % Plot
 plot(t, x);
+hold on;
+plot(t, y);
+plot(t, z);
+hold off;
 axis([0 5 -1 1]);
 xlabel('Time');
 title('Vibrating System')
