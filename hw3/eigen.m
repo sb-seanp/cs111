@@ -28,6 +28,8 @@ A = [aa ab ac; ba bb bc; ca cb cc];
 % Find eigenvectors and eignvalues
 [v,d] = eig(A);
 
+disp(v);
+
 % Find frequencies
 freqs = Freq(d);
 
