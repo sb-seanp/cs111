@@ -1,0 +1,42 @@
+clear;
+clc;
+clf;
+
+p = -1;
+q = 1;
+N = 100;
+c = 1;
+
+dx = (q - p)/(N - 1);
+x = p:dx:q;
+u_init = zeros(N,1);
+u_init = cos(pi*x); 
+
+t = 0;
+t_final = 2;
+dt = .5*dx;
+
+u = zeros(1,N);
+r = c*dt/dx;
+
+while t < t_final,
+    if t + dt > t_final,
+        dt = t_final - t;
+    end;
+    %u_init = [u_init u_init(N)];
+    for i = 2:N,
+        u(i) = u_init(i) + r*(u_init(i) - u_init(i-1));
+    end;
+    xlabel('x');
+    ylabel('u');
+    u_init = u(1:N);
+    t = t + dt;
+end;
+
+exact = cos(pi*(x - c*t));
+disp(exact);
+plot(x, u(1:N), 'r+');
+hold on;
+plot(x, exact, 'bo');
+hold off;
+      

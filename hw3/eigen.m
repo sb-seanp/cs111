@@ -29,7 +29,7 @@ A = [aa ab ac; ba bb bc; ca cb cc];
 [v,d] = eig(A);
 
 % Find frequencies
-freqs = Freq(d);
+%freqs = Freq(d);
 
 % Set time for plots
 t_final = 5;
@@ -37,9 +37,9 @@ dt = 0.02;
 t = 0:dt:t_final;
 
 % Calculate sine plot
-x = v(1,1)*sin(sqrt(-d(1,1))*t);
-y = v(2,1)*sin(sqrt(-d(1,1))*t);
-z = v(3,1)*sin(sqrt(-d(1,1))*t);
+x = v(1,3)*sin(sqrt(-d(3,3))*t);
+y = v(2,3)*sin(sqrt(-d(3,3))*t);
+z = v(3,3)*sin(sqrt(-d(3,3))*t);
 
 % Plot
 plot(t, x);
