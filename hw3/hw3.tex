@@ -10,37 +10,59 @@
 \maketitle
 
 \section{Equations satisfied by the system using Newton's second law of motion.}
+The equations are the result of the object and its mass experiencing forces from two horizontal sides. Spring values affect the distance travelled from both sides.
 \subsection{}	\(m_1\ddot{x}_1 = -k_1x_1 + k_2(x_2 - x_1)\)
 \subsection{}	\(m_2\ddot{x}_2 = -k_2(x_2 - x_1) + k_3(x_3 - x_2)\)
 \subsection{}	\(m_3\ddot{x}_3 = -k_3(x_3 - x_2) - k_4x_3\)
 
 \section{System of equations expressed as an eigen problem.}
-\(Av = \lambda v\) \newline \newline
+\(k\) and \(m\) are matrices representing spring values and mass respectively. Thus, \newline
+\(
+	\begin{bmatrix}
+	\frac{k}{m}
+	\end{bmatrix}
+	\begin{bmatrix}
+	x_1 \\
+	x_2 \\
+	x_3
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	\ddot{x}_1 \\
+	\ddot{x}_2 \\
+	\ddot{x}_3
+	\end{bmatrix}\). \newline
+Without damping, we choose a purely oscillatory solution. \newline
+\(x = ve^{i\omega t} \longrightarrow \ddot{x} = -\omega^2ve^{i\omega t} = -\omega^2x \longrightarrow Ax = -\omega^2x\) where \(A\) is the spring and mass matrix. This becomes an eigen problem where \(\lambda = -\omega^2\) so
+\(Av = \lambda v\). \newline \newline
 \(A = 
 	\begin{bmatrix}
-	\frac{k_1 + k_2}{m_1} 	& \frac{-k_1}{m_1} 		& 0 \\
-	\frac{-k_2}{m_2} 		& \frac{k_2 + k_3}{m_2} & \frac{-k_2}{m_2} \\
-	0						& \frac{-k_3}{m_3}		& \frac{k_3}{m_3}
+	\frac{-k_1 - k_2}{m_1} 	& \frac{k_2}{m_1} 		& 0 \\
+	\frac{k_2}{m_2} 		& \frac{-k_2 - k_3}{m_2} & \frac{k_3}{m_2} \\
+	0						& \frac{k_3}{m_3}		& \frac{-k_3 - k_4}{m_3}
 	\end{bmatrix} \)
 where \textit{v} is an eigenvector and \(\lambda \) is a corresponding scalar eigenvalue.
 
 \section{Eigenvector matrix and eigenvalue matrix.}
 \(v = 
 	\begin{bmatrix}
-	-0.2798	&	0.6620	&	0.5239 \\
-	 0.8229	&	0.0446	&	0.4409 \\
-	-0.4944	&	0.7482	&	0.7288
+	 0.1163	&	0.8321	&	0.3803 \\
+	 -0.8495	&	-0.2305	&	0.6768 \\
+	 0.5146	&	-0.5045	&	0.6303
 	\end{bmatrix} \)
 \(\lambda =
 	\begin{bmatrix}
-	22.2041	&	0		&	0 \\
-	0		&	7.8367	&	0 \\
-	0		&	0		&	3.2925
+	-25.7567	&	0		&	0 \\
+	0		&	-8.1925	&	0 \\
+	0		&	0		&	-3.0508
 	\end{bmatrix} \)
 
 \section{Frequencies and amplitudes.}
+Frequency is the value \(\omega = \sqrt{-\lambda}\). It is the number of occurrences in one period. Amplitude is an eigenvector, \(X\) of the form \(AX = \lambda X\) and is the measure of change over a period.
 \(\omega = 
 	\begin{bmatrix}
-	4.7121	&	2.7994	&	1.8145
+	4.7121	\\	
+	2.7994	\\
+	1.8145
 	\end{bmatrix} \)
 \end{document}
