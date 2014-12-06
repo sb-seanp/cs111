@@ -12,28 +12,27 @@ dy  = (qy - py)/(N - 1);
 x   = px:dx:qx;
 y   = py:dy:qy;
 
+t = 0;
+t_final = pi;
+dt = 0.2*dx;
+
 u   = zeros(N,N);                  
 u_new = zeros(N,N);                 
 v   = zeros(N,N);                  
-v_new = zeros(N,N);  
-u = -cos(x)*sin(y)*cos(t);
-v = sin(x)*cos(y)*cos(t);
+v_new = zeros(N,N);
 
-t = 0;
-t_final = pi;
-dt = .2*dx;
+r = 0.25;
 
-r = .25;
-
-A = zeroes(N,N);
-
-for i = 2:N-1,
-    for j = 2:N-1,
-        m = (j - 1)*qx + px;
-        A(m,m) = C;
-        A(m,m + px) = R;
-        A(m,m - px) = L;
-        A(m,m + qx) = T;
-        A(m,m - qx) = B;
+while t < t_final,
+    for i = 2:N - 1,
+        for j = 2:N - 1;
+            %u(i,j) = -cos(x).*sin(y);
+            %v(i,j) = sin(x).*cos(y);
+            u_new = u;
+            v_new = v;
+            u(i,j) = u_new(i,j)-(dt*u_new(i,j).*(u_new(i,j)-u_new(i-1,j))/dx)-(dt*v_new(i,j).*(u_new(i,j)-u_new(i,j-1))/dy);
+            v(i,j) = v_new(i,j)-(dt*u_new(i,j).*(v_new(i,j)-v_new(i-1,j))/dx)-(dt*v_new(i,j).*(v_new(i,j)-v_new(i,j-1))/dy);
+        end;
     end;
+    t = t + dt;
 end;
