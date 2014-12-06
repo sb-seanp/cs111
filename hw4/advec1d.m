@@ -5,8 +5,8 @@ clf;
 p = -1;
 q = 1;
 N = 100;
-%c = 1;
-c = -1;
+c = 1;
+%c = -1;
 
 dx = (q - p)/(N - 1);
 x = p:dx:q;
@@ -24,9 +24,9 @@ while t < t_final,
     if t + dt > t_final,
         dt = t_final - t;
     end;
-    for i = 1:N-1,%i = 1:N-1
-        %u(i) = u_new(i) - r*(u_new(i) - u_new(i-1));
-        u(i) = u_new(i) - r*(u_new(i+1) - u_new(i));
+    for i = 2:N,%i = 1:N-1
+        u(i) = u_new(i) - r*(u_new(i) - u_new(i-1));
+        %u(i) = u_new(i) - r*(u_new(i+1) - u_new(i));
     end;
     u = u_new;
     t = t + dt;
@@ -40,4 +40,5 @@ hold off;
 xlabel('x');
 ylabel('u');
 title('Linear advection in 1 dimension and c = 1');
+legend('Numerical', 'Exact');
       

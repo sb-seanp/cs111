@@ -21,18 +21,41 @@ u_new = zeros(N,N);
 v   = zeros(N,N);                  
 v_new = zeros(N,N);
 
+% Boundary conditions
+u(1,:) = 0;
+u(N,:) = 0;
+u(:,1) = 0;
+u(:,N) = 0;
+v(1,:) = 0;
+v(N,:) = 0;
+v(:,1) = 0;
+v(:,N) = 0;
+
+i = 1:N;
+j = 1:N;
+
+disp('working');
+%u = -cos(x).*sin(y).*cos(t);
+%v = sin(x).*cos(y).*cos(t);
+disp('working');
+
 r = 0.25;
 
 while t < t_final,
-    for i = 2:N - 1,
-        for j = 2:N - 1;
-            %u(i,j) = -cos(x).*sin(y);
-            %v(i,j) = sin(x).*cos(y);
-            u_new = u;
-            v_new = v;
-            u(i,j) = u_new(i,j)-(dt*u_new(i,j).*(u_new(i,j)-u_new(i-1,j))/dx)-(dt*v_new(i,j).*(u_new(i,j)-u_new(i,j-1))/dy);
-            v(i,j) = v_new(i,j)-(dt*u_new(i,j).*(v_new(i,j)-v_new(i-1,j))/dx)-(dt*v_new(i,j).*(v_new(i,j)-v_new(i,j-1))/dy);
-        end;
-    end;
+    u_new = u;
+    v_new = v;
+    u = -cos(x).*sin(y)*cos(t);
+    v = sin(x).*cos(y)*cos(t);
+    quiver(x,y,u,v);
+    u(i,j) = u_new(i,j)-(dt*u_new(i,j).*(u_new(i,j)-u_new(i-1,j))/dx)-(dt*v_new(i,j).*(u_new(i,j)-u_new(i,j-1))/dy);
+    v(i,j) = v_new(i,j)-(dt*u_new(i,j).*(v_new(i,j)-v_new(i-1,j))/dx)-(dt*v_new(i,j).*(v_new(i,j)-v_new(i,j-1))/dy);
     t = t + dt;
+    u(1,:) = 0;
+    u(N,:) = 0;
+    u(:,1) = 0;
+    u(:,N) = 0;
+    v(1,:) = 0;
+    v(N,:) = 0;
+    v(:,1) = 0;
+    v(:,N) = 0;
 end;
