@@ -47,6 +47,7 @@ while t < t_final,
     u = -cos(x).*sin(y)*cos(t);
     v = sin(x).*cos(y)*cos(t);
     quiver(x,y,u,v);
+    title('Vector field');
     u(i,j) = u_new(i,j)-(dt*u_new(i,j).*(u_new(i,j)-u_new(i-1,j))/dx)-(dt*v_new(i,j).*(u_new(i,j)-u_new(i,j-1))/dy);
     v(i,j) = v_new(i,j)-(dt*u_new(i,j).*(v_new(i,j)-v_new(i-1,j))/dx)-(dt*v_new(i,j).*(v_new(i,j)-v_new(i,j-1))/dy);
     t = t + dt;
