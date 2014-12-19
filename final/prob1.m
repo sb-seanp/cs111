@@ -1,7 +1,7 @@
 clear all;
 clc;
 
-m = 50;
+m = 5;
 
 low = 0;
 up = 1;
@@ -20,30 +20,30 @@ t_final = 1;
 D = 0.5;
 
 a_init = 1;
-u = zeros(m,m);
-v = zeros(m,m);
+c = zeros(m,1);
+u = a_init*y.*(1 - y);
+v = 0;
 
-e = exp(-t)-1;
+exact = exp(-t)-1*(sin(pi*x) + sin(pi*y));
 
-exact = e*(sin(pi*x) + sin(pi*y));
+A = sparse(A);
 
-A = sparse(m,m);
 % Treat boundary
 for i = 1:m,
     j = 1;
     p = (j - 1)*m + i;
-    A(p,p) = 1; RHS(p) = u(i,j);
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
     j = m;
     p = (j - 1)*m + i;
-    A(p,p) = 1; RHS(p) = u(i,j);
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
 end;
 for j = 1:m,
     i = 1;
     p = (j - 1)*m + i;
-    A(p,p) = 1; RHS(p) = u(i,j);
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
     i = m;
     p = (j - 1)*m + i;
-    A(p,p) = 1; RHS(p) = u(i,j);
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
 end;
 
 while t < t_final,
@@ -58,21 +58,26 @@ while t < t_final,
             A(p, p - 1) = -D*dt/dy/dy;
             A(p, p + m) = -D*dt/dx/dx;
             A(p, p - m) = -D*dt/dy/dy;
-            if a_init > 0,
-                RHS(p) = u(i,j) - a_init*dt/dx*(u(i,j) - u(i - 1,j)) - dt/dy*(u(i,j) - u(i,j - 1));
-            else
-                RHS(p) = u(i,j) - a_init*dt/dx*(u(i + 1,j) - u(i,j)) - dt/dy*(u(i,j + 1) - u(i,j));
-            end;
         end;
-        
+        if a_init > 0,
+            RHS(p) = c(p) - u*dt/dx*(c(p) - c(p-1));%+ dt*S
+        else
+            RHS(p) = c(p) - u*dt/dx*(c(p + 1) - c(p));%+ dt*S
+        end;        
     end;
-    
-    unew = A\RHS;
-    for i = 1:m,
-        for j = 1:m,
-            p = (j - 1)*m + i;
-            u(i,j) = unew(p);
-        end;
-    end;
+    %cnew = A\RHS;
+    %c = cnew;
+    %for i = 1:m,
+     %   for j = 1:m,
+      %      p = (j - 1)*m + i;
+       %     u(i,j) = unew(p);
+        %end;
+    %end;
     t = t + dt;
 end;
+% vector to matrix ,use c and grid points
+c_exact = (exp(-t) - 1)*(sin(pi*x) + sin(pi*y));
+mat = vec2mat(c_exact,m);
+plot(mat,m);
+hold on;
+hold off;
