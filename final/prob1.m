@@ -1,7 +1,7 @@
 clear all;
 clc;
 
-m = 5;
+m = 50;
 
 low = 0;
 up = 1;
@@ -19,37 +19,39 @@ t = 0;
 t_final = 1;
 D = 0.5;
 
-a_init = 1;
+a = 1;
 c = zeros(m,1);
-u = a_init*y.*(1 - y);
+u = a*y.*(1 - y);
 v = 0;
 
-exact = exp(-t)-1*(sin(pi*x) + sin(pi*y));
+e = exp(-t)-1;
 
-A = sparse(A);
+%S = exact - u*e*pi*cos(pi*x)-u*e*cos(pi*y)+D*e*pi^2*sin(pi*x)+D*e*pi^2*sin(pi*x);
 
 % Treat boundary
 for i = 1:m,
     j = 1;
     p = (j - 1)*m + i;
-    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i))); RHS(p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
     j = m;
     p = (j - 1)*m + i;
-    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i))); RHS(p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
 end;
 for j = 1:m,
     i = 1;
     p = (j - 1)*m + i;
-    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i))); RHS(p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
     i = m;
     p = (j - 1)*m + i;
-    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
+    A(p,p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i))); RHS(p) = exp(-t)-1*(sin(pi*x(i)) + sin(pi*y(i)));
 end;
 
 while t < t_final,
     if t + dt > t_final,
         dt = t_final - t;
     end;
+    exact = (exp(-t)-1)*(sin(pi*x) + sin(pi*y));
+    u = a*y.*(1-y);
     for i = 2:m - 1,
         for j = 2:m - 1,
             p = (j - 1)*m + i;
@@ -59,25 +61,21 @@ while t < t_final,
             A(p, p + m) = -D*dt/dx/dx;
             A(p, p - m) = -D*dt/dy/dy;
         end;
-        if a_init > 0,
-            RHS(p) = c(p) - u*dt/dx*(c(p) - c(p-1));%+ dt*S
+        if c(i) > 0,
+            RHS(i) = c(i) - a*y(i)*(1-y(i))*dt/dx*(c(i) - c(i-1));%+ dt*S
+            
         else
-            RHS(p) = c(p) - u*dt/dx*(c(p + 1) - c(p));%+ dt*S
+            RHS(i) = c(i) - a*y(i)*(1-y(i))*dt/dx*(c(i + 1) - c(i));%+ dt*S
         end;        
     end;
-    %cnew = A\RHS;
-    %c = cnew;
-    %for i = 1:m,
-     %   for j = 1:m,
-      %      p = (j - 1)*m + i;
-       %     u(i,j) = unew(p);
-        %end;
-    %end;
+    S = sparse(A);
+    cnew = S\RHS;
+    c = cnew;
     t = t + dt;
+    y = y + dy;
 end;
 % vector to matrix ,use c and grid points
-c_exact = (exp(-t) - 1)*(sin(pi*x) + sin(pi*y));
-mat = vec2mat(c_exact,m);
-plot(mat,m);
+plot(x,exact,'r');
+%plot(x,c,'b');
 hold on;
 hold off;
